@@ -1,0 +1,30 @@
+﻿const Settings = require('../models/Settings');
+
+exports.getSettings = async (req, res) => {
+  try {
+    let settings = await Settings.findOne();
+    if (!settings) {
+      settings = await Settings.create({});
+    }
+    res.json(settings);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.updateSettings = async (req, res) => {
+  try {
+    const { categories, countdownEnd } = req.body;
+    let settings = await Settings.findOne();
+    if (!settings) {
+      settings = new Settings();
+    }
+    if (categories) settings.categories = categories;
+    if (countdownEnd !== undefined) settings.countdownEnd = countdownEnd;
+    
+    await settings.save();
+    res.json(settings);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

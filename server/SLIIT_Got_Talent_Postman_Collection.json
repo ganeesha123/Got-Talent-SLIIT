@@ -1,0 +1,500 @@
+{
+  "info": {
+    "name": "SLIIT's Got Talent API",
+    "description": "Postman collection for the SLIIT's Got Talent backend. Includes token capture hooks for authentication.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{auth_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:5000/api",
+      "type": "string"
+    },
+    {
+      "key": "auth_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "contestant_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login Admin (Send OTP)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"admin@sliit.lk\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Verify Admin OTP",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const responseJson = pm.response.json();",
+                  "if (responseJson.token) {",
+                  "    pm.collectionVariables.set(\"auth_token\", responseJson.token);",
+                  "    console.log(\"Token captured and set to collection variable 'auth_token'\");",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"admin@sliit.lk\",\n    \"otp\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/verify",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "verify"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Login Judge (Send OTP)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"judge@sliit.lk\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Verify Judge OTP",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const responseJson = pm.response.json();",
+                  "if (responseJson.token) {",
+                  "    pm.collectionVariables.set(\"auth_token\", responseJson.token);",
+                  "    console.log(\"Token captured and set to collection variable 'auth_token'\");",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"judge@sliit.lk\",\n    \"otp\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/verify",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "verify"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contestants",
+      "item": [
+        {
+          "name": "Get Public Approved Contestants",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/contestants",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "contestants"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get My Application (Private)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/contestants/my-application",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "contestants",
+                "my-application"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Register Contestant",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Test Contestant",
+                  "type": "text"
+                },
+                {
+                  "key": "universityId",
+                  "value": "IT21000000",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "it21000000@my.sliit.lk",
+                  "type": "text"
+                },
+                {
+                  "key": "mobileNumber",
+                  "value": "0712345678",
+                  "type": "text"
+                },
+                {
+                  "key": "year",
+                  "value": "3",
+                  "type": "text"
+                },
+                {
+                  "key": "semester",
+                  "value": "1",
+                  "type": "text"
+                },
+                {
+                  "key": "talentType",
+                  "value": "Singing",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "A wonderful vocal performance.",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "type": "file"
+                },
+                {
+                  "key": "video",
+                  "type": "file"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/contestants",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "contestants"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Admin: Get All Contestants",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/contestants/admin",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "contestants",
+                "admin"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Admin: Get Contestant by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/contestants/admin/{{contestant_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "contestants",
+                "admin",
+                "{{contestant_id}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Admin: Update Contestant",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status\": \"approved\",\n    \"remarks\": \"Good to go\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/contestants/{{contestant_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "contestants",
+                "{{contestant_id}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Admin: Delete Contestant",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/contestants/{{contestant_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "contestants",
+                "{{contestant_id}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Judge: Submit Score",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"score\": 85\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/contestants/{{contestant_id}}/score",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "contestants",
+                "{{contestant_id}}",
+                "score"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Settings",
+      "item": [
+        {
+          "name": "Get Settings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/settings",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "settings"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Settings (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"categories\": [\"Singing\", \"Dancing\", \"Magic\"],\n    \"countdownEnd\": \"2024-12-31T23:59:59.000Z\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/settings",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "settings"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Votes",
+      "item": [
+        {
+          "name": "Get Vote Stats (Public)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/votes/stats",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "votes",
+                "stats"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cast Vote (Student)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"contestantId\": \"{{contestant_id}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/votes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "votes"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

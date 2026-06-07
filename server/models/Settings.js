@@ -1,0 +1,14 @@
+﻿const mongoose = require('mongoose');
+
+const settingsSchema = new mongoose.Schema({
+  categories: {
+    type: [String],
+    default: ['Singing', 'Dancing', 'Magic', 'Other']
+  },
+  countdownEnd: {
+    type: Date,
+    default: null
+  }
+}, { timestamps: true });
+
+module.exports = mongoose.model('Settings', settingsSchema);

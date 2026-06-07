@@ -1,0 +1,34 @@
+/* Reuse existing styling tokens and components */
+@import '../styles.css';
+
+/* Dashboard shell tweaks for React routes */
+.dashboard-shell {
+  min-height: 100vh;
+}
+
+.dashboard-sidebar {
+  gap: 24px;
+}
+
+.sidebar-header {
+  margin-bottom: 4px;
+}
+
+.sidebar-nav {
+  margin-top: 8px;
+}
+
+.sidebar-nav-link {
+  text-decoration: none;
+}
+
+.dashboard-main {
+  padding: 36px;
+}
+
+@media (max-width: 768px) {
+  .dashboard-main {
+    padding: 20px;
+    padding-bottom: 90px;
+  }
+}
